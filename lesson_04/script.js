@@ -5,7 +5,7 @@ let money = +prompt( 'Ваш месячный доход? ', '6000' ), // Дох
     addExpenses = prompt( 'Перечислите возможные расходы за рассчитываемый период через запятую ', '' ), // перечисляем дополнительный расход 
     deposit = confirm( 'Есть ли у вас депозит в банке? ' ), // булево значение true/false
     mission = +prompt( 'Какую сумму хотите накопить? ', '' ), // любое число (Какую сумму хотите накопить)
-    period = +prompt( 'Период (от 1 до 12 месяцев) ', '' ), // число от 1 до 12 (месяцев)
+    period = 6, // число от 1 до 12 (месяцев)
     expenses1 = prompt( 'Введите обязательную статью расходов? ', '' ),
     amount1 = +prompt( 'Во сколько это обойдется? ', '' ),
     expenses2 = prompt( 'Введите обязательную статью расходов? ', '' ),
@@ -19,27 +19,28 @@ showTypeOf( money );
 showTypeOf( income );
 showTypeOf( deposit );
 
-// возвращает сумму всех обязательных расходов за месяц
+// Функция getExpensesMonth возвращает сумму всех обязательных расходов за месяц
 let getExpensesMonth = function () {
-    let budgetMonth = money - amount1 - amount2;
-    console.log( 'Месячный бюджет: ', budgetMonth );
-    return budgetMonth;
+    return amount1 + amount2;
 };
 
 // Вывод возможных расходов в виде массива (addExpenses)
 //при нажатии на кнопку "Отмена", не будет выскакивать ошибка в консоли
 if ( addExpenses ) {
     addExpenses.toLowerCase().split( ', ' );
-    console.log( 'Длинна строки: ', addExpenses.length);
+    console.log( 'Длинна строки: ', addExpenses);
 }
 
+// Функция getAccumulatedMonth возвращает Накопления за месяц (Доходы минус расходы)
 let getAccumulatedMonth = function () {
     return money - getExpensesMonth();
 };
 
-// результат вызова функции getAccumulatedMonth
+// Объявить переменную accumulatedMonth и присвоить ей результат вызова функции getAccumulatedMonth 
 let accumulatedMonth = getAccumulatedMonth();
 
+/* Функция getTargetMonth подсчитывает за какой период будет достигнута цель, 
+   зная результат месячного накопления (accumulatedMonth) и возвращает результат*/
 let getTargetMonth = function () {
     let target = mission / accumulatedMonth;
     console.log( 'За сколько месяцев будет достигнута цель: ', Math.floor(target) );
@@ -48,6 +49,7 @@ let getTargetMonth = function () {
 
 getTargetMonth();
 
+// budgetDay высчитываем исходя из значения месячного накопления (accumulatedMonth)
 let budgetDay = getAccumulatedMonth() / 30;
 
 let getStatusIncome = function () {
