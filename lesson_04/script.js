@@ -28,7 +28,7 @@ let getExpensesMonth = function () {
 //при нажатии на кнопку "Отмена", не будет выскакивать ошибка в консоли
 if ( addExpenses ) {
     addExpenses.toLowerCase().split( ', ' );
-    console.log( 'Длинна строки: ', addExpenses);
+    console.log( 'Вывод возможных расходов: ', addExpenses );
 }
 
 // Функция getAccumulatedMonth возвращает Накопления за месяц (Доходы минус расходы)
