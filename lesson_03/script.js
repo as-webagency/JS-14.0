@@ -38,6 +38,6 @@ console.log( typeof deposit );
 
 console.log( 'Месячный бюджет: ', budgetMonth );
 console.log( 'За сколько месяцев будет достигнута цель: ', Math.floor(target) );
-console.log( 'Бюджет на месяц: ', Math.ceil(budgetDay) );
+console.log( 'Бюджет на день: ', Math.ceil(budgetDay) );
 console.log( 'Период равен ' + period + ' месяцев' );
 console.log( 'Цель заработать ' + mission + ' рублей/долларов/гривен/юани' );
