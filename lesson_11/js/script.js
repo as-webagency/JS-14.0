@@ -306,6 +306,16 @@ additionalExpensesItem.addEventListener( 'input', function () {
     additionalExpensesItem.value = additionalExpensesItem.value.replace(/[^а-я\s\,\.]/, '');
 });
 
+// Ползунок
+periodSelect.addEventListener( 'input', function () {
+    periodAmount.innerHTML = periodSelect.value;
+});
+
+// Накопления за период
+// periodSelect.addEventListener( 'input', function () {
+//     incomePeriodValue.value = appData.calcPeriod();
+// });
+
 // Слушатели событий
 start.addEventListener( 'click', appData.start );
 btnPlusExpenses.addEventListener( 'click', appData.addExpensesBlock );
