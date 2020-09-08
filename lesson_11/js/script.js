@@ -45,7 +45,6 @@ let appData = {
     start: function () {
         
         appData.budget = +salaryAmount.value;
-        
 
         // Вызовы функции 
         appData.getExpenses();
@@ -54,7 +53,8 @@ let appData = {
         appData.getAddExpenses();
         appData.getAddIncome();
         appData.getBudget();
-
+        
+        // showResult - должна вызываться последней
         appData.showResult();
     
     },
@@ -67,14 +67,11 @@ let appData = {
         additionalExpensesValue.value = appData.addExpenses.join(', ');
         additionalIncomeValue.value = appData.addIncome.join(', ');
         targetMonthValue.value = Math.ceil(appData.getTargetMonth());
-        //incomePeriodValue.value = appData.calcPeriod();
-
-        periodSelect.addEventListener( 'input', function () {
-            periodAmount.innerHTML = periodSelect.value;
-        });
+        incomePeriodValue.value = appData.calcPeriod();
 
         periodSelect.addEventListener( 'input', function () {
             incomePeriodValue.value = appData.calcPeriod();
+            periodAmount.innerHTML = periodSelect.value;
         });
 
     },
@@ -310,11 +307,6 @@ additionalExpensesItem.addEventListener( 'input', function () {
 periodSelect.addEventListener( 'input', function () {
     periodAmount.innerHTML = periodSelect.value;
 });
-
-// Накопления за период
-// periodSelect.addEventListener( 'input', function () {
-//     incomePeriodValue.value = appData.calcPeriod();
-// });
 
 // Слушатели событий
 start.addEventListener( 'click', appData.start );
