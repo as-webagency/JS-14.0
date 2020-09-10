@@ -72,7 +72,10 @@ todoControl.addEventListener( 'submit', function ( event ) {
     };
     
     // Проверка на пустую строку
-    if ( headerInput.value.trim() === '' ) return;
+    if ( headerInput.value.trim() === '' ) {
+        alert( 'Укажите список ваших дел!' );
+        return;
+    }
 
     // Добавляем новый объект
     todoData.push( newTodo );
