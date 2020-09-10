@@ -61,10 +61,6 @@ saveToDo = () => {
     localStorage.setItem( 'savesToDo', JSON.stringify( todoData ) );
 };
 
-const showText = function () {
-    todoList.textContent = localStorage.headerInput;
-};
-
 // На форму навешиваем событие submit
 todoControl.addEventListener( 'submit', function ( event ) {
     event.preventDefault();
