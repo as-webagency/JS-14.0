@@ -51,14 +51,18 @@ const render = function () {
             saveToDo();
             render();
         });
-
+    
     });
-
+    
 },
 
 // Функция конвертор - из JSON в JS
 saveToDo = () => {
     localStorage.setItem( 'savesToDo', JSON.stringify( todoData ) );
+};
+
+const showText = function () {
+    todoList.textContent = localStorage.headerInput;
 };
 
 // На форму навешиваем событие submit
@@ -70,7 +74,7 @@ todoControl.addEventListener( 'submit', function ( event ) {
         value: headerInput.value,
         completed: false
     };
-
+    
     // Проверка на пустую строку
     if ( headerInput.value.trim() === '' ) return;
 
@@ -82,5 +86,8 @@ todoControl.addEventListener( 'submit', function ( event ) {
     saveToDo();
     // Вызываем функцию рендера для обновления всех дел
     render();
-
+    
 });
+
+// Вызываем функцию рендера для сохранения всего при перезагрузке страницы
+render();
