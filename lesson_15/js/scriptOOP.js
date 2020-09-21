@@ -3,7 +3,7 @@
 const start = document.getElementById( 'start' ),
     btnPlusIncome = document.getElementsByTagName( 'button' )[0],
     btnPlusExpenses = document.getElementsByTagName( 'button' )[1],
-    depositCheck = document.querySelector( '#deposit-check' ),
+    depositCheck = document.getElementById( 'deposit-check' ),
     additionalIncomeItem = document.querySelectorAll( '.additional_income-item' ),
     budgetMonthValue = document.getElementsByClassName( 'budget_month-value' )[0],
     budgetDayValue = document.getElementsByClassName( 'budget_day-value' )[0],
@@ -23,7 +23,10 @@ const start = document.getElementById( 'start' ),
     startHover = document.querySelector( '.result #cancel:hover, .result #start:hover' ),
     disabledInputData = document.querySelectorAll( '.data input[type=text]' ),
     cancel = document.getElementById( 'cancel' ),
-    allInput = document.querySelectorAll( 'input[type=text]' );
+    allInput = document.querySelectorAll( 'input[type=text]' ),
+    depositBank = document.querySelector( '.deposit-bank' ),
+    depositAmount = document.querySelector( '.deposit-amount' ),
+    depositPercent = document.querySelector( '.deposit-percent' );
 
 let expensesItems = document.querySelectorAll( '.expenses-items' ),
     incomeItems = document.querySelectorAll( '.income-items' );
@@ -52,7 +55,7 @@ class AppData {
         this.budget = +salaryAmount.value;
 
         disabledInputData.forEach( element => {
-            element.setAttribute( 'disabled', 'true' );
+            element.setAttribute( 'disabled', true );
             start.style.display = 'none';
             cancel.style.display = 'block';
         });
@@ -61,11 +64,11 @@ class AppData {
             expensesItemsInputReset = document.querySelectorAll( '.expenses-items > input' );
 
         incomeItemsInputReset.forEach( element => {
-            element.setAttribute( 'disabled', 'true' );
+            element.setAttribute( 'disabled', true );
         });
         
         expensesItemsInputReset.forEach( element => {
-            element.setAttribute( 'disabled', 'true' );
+            element.setAttribute( 'disabled', true );
         });
 
         cancel.addEventListener( 'click', () => {
@@ -77,6 +80,7 @@ class AppData {
         this.getExpensesMonth();
         this.getAddExpenses();
         this.getAddIncome();
+        this.getInfoDeposit();
         this.getBudget();
         
         // showResult - должна вызываться последней
@@ -272,7 +276,8 @@ class AppData {
     // Функция возвращает Накопления за месяц (Доходы минус расходы)
     getBudget() {
 
-        this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
+        const monthDeposit = this.moneyDeposit * ( this.percentDeposit / 100 );
+        this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth + monthDeposit;
         this.budgetDay = this.budgetMonth / 30;
 
     }
@@ -305,11 +310,8 @@ class AppData {
     getInfoDeposit() {
 
         if ( this.deposit ) {
-            do {
-                this.percentDeposit = prompt( 'Какой годовой процент', 10 );
-                this.moneyDeposit = prompt( 'Какая сумма заложена?', 10000 );
-            } while ( isNaN( this.moneyDeposit ) || this.moneyDeposit === '' || this.moneyDeposit === null || 
-            isNaN( this.percentDeposit ) || this.percentDeposit === '' || this.percentDeposit === null );
+            this.percentDeposit = depositPercent.value;
+            this.moneyDeposit = depositAmount.value;
         } 
 
     }
@@ -317,6 +319,48 @@ class AppData {
     calcPeriod() {
 
         return this.budgetMonth * periodSelect.value;
+
+    }
+    // Какой банк выбрал пользователь
+    changePercent() {
+
+        const valueSelect = this.value;
+        if ( valueSelect === 'other' ) {
+            depositPercent.style.display = 'inline-block';
+            depositPercent.addEventListener( 'input', () => {
+                if ( depositPercent.value !== 'number' && depositPercent.value >= 0 && depositPercent.value <= 100 ) {
+                    start.setAttribute( 'disabled', 'disabled' );
+                    alert( 'Введите корректное значение в поле проценты' );
+                } else {
+                    start.removeAttribute( 'disabled', 'disabled' );
+                }
+            });
+        } else {
+            depositPercent.value = valueSelect;
+            depositPercent.style.display = 'none';
+        }
+
+    }
+    // Проверка на checkbox
+    depositHandler() {
+
+        depositAmount.addEventListener( 'input', () => {
+            depositAmount.value = depositAmount.value.replace(/[^0-9]/g, '');
+        });
+
+        if ( depositCheck.checked ) {
+            depositBank.style.display = 'inline-block';
+            depositAmount.style.display = 'inline-block';
+            this.deposit = true;
+            depositBank.addEventListener( 'change', this.changePercent );
+        } else {
+            depositBank.style.display = 'none';
+            depositAmount.style.display = 'none';
+            depositBank.value = '';
+            depositAmount.value = '';
+            this.deposit = false;
+            depositBank.removeEventListener( 'change', this.changePercent );
+        }
 
     }
     // Обработчики событий и атрибуты
@@ -328,10 +372,12 @@ class AppData {
 
         btnPlusExpenses.addEventListener( 'click', this.addExpensesBlock );
         btnPlusIncome.addEventListener( 'click', this.addIncomeBlock );
+
+        depositCheck.addEventListener( 'change', this.depositHandler.bind( this ));
         
         //Добавляем атрибуты
         if ( salaryAmount.value === '' ) {
-            start.setAttribute( 'disabled', 'true' );
+            start.setAttribute( 'disabled', true );
             start.style.opacity = 1;
         }
 
@@ -360,7 +406,7 @@ class AppData {
 
         // Пропускаем только русские буквы, пробелы и знаки препинания
         incomeTitle.addEventListener( 'input', () => {
-            incomeTitle.value = incomeTitle.value.replace(/[^а-я\s\,\.\s\,\.]/, '');
+            incomeTitle.value = incomeTitle.value.replace(/[^а-я\s\,\.]/, '');
         });
 
         expensesTitle.addEventListener( 'input', () => {
