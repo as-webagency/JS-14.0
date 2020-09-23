@@ -328,7 +328,8 @@ class AppData {
         if ( valueSelect === 'other' ) {
             depositPercent.style.display = 'inline-block';
             depositPercent.addEventListener( 'input', () => {
-                if ( depositPercent.value !== 'number' && depositPercent.value >= 0 && depositPercent.value <= 100 ) {
+                if ( ( isNaN( depositPercent.value ) ) || ( depositPercent.value >= 0 && 
+                    depositPercent.value <= 100 ) ) {
                     start.setAttribute( 'disabled', 'disabled' );
                     alert( 'Введите корректное значение в поле проценты' );
                 } else {
