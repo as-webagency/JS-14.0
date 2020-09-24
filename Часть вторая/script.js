@@ -23,19 +23,22 @@ const myLesson = [
     { lesson: 16, type: 'additional', points: 7 },
 ];  
 
-const lessons = () => {
+const lessons = ( map ) => {
 
-    myLesson.forEach( ( element, key ) => {
+    for ( let i = map.length - 1; i >= 0; i-- ) {
 
-        if (element.type === 'additional') {
-            let removed = element;
-            //delete removed[element];
-            console.log('element: ',  removed);
-            
+        if ( map[i].type === "additional" ) {
+            map.splice( i, 1 );
         }
-        
+
+    }
+
+    map.forEach( ( element ) => {
+
+        element.points /= 2;
+
     });
-    console.log('myLesson: ', myLesson);
 
 };
-lessons();
+lessons( myLesson );
+console.log( myLesson );
